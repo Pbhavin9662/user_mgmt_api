@@ -7,7 +7,6 @@ RBAC-protected user retrieval, and paginated user listing.
 - FastAPI
 - SQLAlchemy 2.0 (sync engine)
 - JWT auth via `python-jose`
-- Password hashing via `passlib[bcrypt]`
 - Alembic migrations
 - Pytest test suite
 - Optional rate limiting via `slowapi`
@@ -66,12 +65,3 @@ pytest -q
 ```bash
 docker compose up --build
 ```
-
-## CI
-GitHub Actions runs `ruff` and `pytest` on PRs.
-
----
-
-**Notes & Trade-offs**
-- Sync SQLAlchemy chosen for simplicity and reliability with FastAPI. Can be flipped to async if needed.
-- Basic rate limiting configured for `/login`. Consider central cache or IP-awareness for distributed setups.
