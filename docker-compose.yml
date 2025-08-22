@@ -1,31 +1,21 @@
-version: "3.9"
-
 services:
-  web:
+  api:
     build: .
-    container_name: user_mgmt_api
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://dell:dell123@db:5432/user_db
+      - JWT_SECRET=change-me-in-prod
+      - ACCESS_TOKEN_EXPIRES_MIN=60
     depends_on:
       - db
-
+    ports: ["8000:8000"]
   db:
-    image: postgres:15
-    container_name: postgres_db_dev
-    restart: always
+    image: postgres:16
     environment:
-      POSTGRES_USER: bhavin
-      POSTGRES_PASSWORD: bhavin123
-      POSTGRES_DB: user_db
-    ports:
-      - "5432:5432"
+      - POSTGRES_USER=dell
+      - POSTGRES_PASSWORD=dell123
+      - POSTGRES_DB=user_db
+    ports: ["5432:5432"]
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
+      - pgdata:/var/lib/postgresql/data
 volumes:
-  postgres_data:
+  pgdata:
